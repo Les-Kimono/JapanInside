@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 import models, schemas, crud
 from database import SessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware
+import os
 models.Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Japan Inside API")
@@ -31,6 +32,11 @@ def hello_world():
     return {"message": "Hello World"}
 @app.get('/')
 def hello_world():
+    DATABASE_URL = os.getenv(
+    "DATABASE_URL",
+    "sqlite:///:memory:"  
+)
+    print(DATABASE_URL)
     return {}, 200
 @app.get("/api/articles", response_model=list[schemas.Article])
 def read_articles(db: Session = Depends(get_db)):
