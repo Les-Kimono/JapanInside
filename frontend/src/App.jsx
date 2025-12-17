@@ -1,13 +1,12 @@
-import ArticleList from './ArticleList';
-import RecetteList from './RecetteList';
+const API_URL = "http://localhost:8000";
 
 function App() {
     return (
-        <div>
-            <h1>Japan Inside 🇯🇵</h1>
-            <ArticleList />
-            <RecetteList />
-        </div>
+        <iframe
+            src={`${API_URL}/api/carte`}
+            title="Carte du Japon"
+            style={{ width:"100vw", height:"100vh", border:"none" }}
+        />
     );
 }
 
