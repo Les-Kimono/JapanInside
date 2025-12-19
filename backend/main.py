@@ -5,7 +5,7 @@ from database import SessionLocal, engine
 from fastapi.middleware.cors import CORSMiddleware
 import os
 from fastapi.responses import HTMLResponse, JSONResponse
-
+from sqlalchemy.orm import joinedload
 from fastapi.staticfiles import StaticFiles
 import json
 
@@ -50,34 +50,57 @@ def hello_world():
     print(DATABASE_URL)
     return {}, 200
 
-@app.get("/api/articles", response_model=list[schemas.Article])
-def read_articles(db: Session = Depends(get_db)):
-    return crud.get_articles(db)
 
-@app.get("/api/carte")
-def get_carte():
-    return HTMLResponse(content=generate_map_html())
-
-# Route pour la carte interactive
-@app.get("/carte", response_class=HTMLResponse)
-async def get_carte():
-    """Retourne la carte HTML interactive"""
-    html_content = generate_map_html()
-    return HTMLResponse(content=html_content)
 
 # API pour les données des villes
-@app.get("/api/villes")
-async def get_all_villes():
+@app.get("/api/villes", response_model=list[schemas.Ville])
+async def get_all_villes(db: Session = Depends(get_db)):
     """Retourne toutes les villes disponibles"""
-    return JSONResponse(content=villes_data)
+    return crud.get_villes(db)
 
-@app.get("/api/villes/{nom_ville}")
-async def get_ville(nom_ville: str):
-    """Retourne les détails d'une ville spécifique"""
-    ville_key = nom_ville.capitalize()
-    if ville_key not in villes_data:
-        raise HTTPException(status_code=404, detail=f"Ville {nom_ville} non trouvée")
-    return villes_data[ville_key]
+
+@app.post("/api/villes", response_model=schemas.Ville)
+
+def create_ville(
+     ville: schemas.VilleCreate,       
+    db: Session = Depends(get_db) 
+):
+    db_ville = models.Ville(
+        nom=ville.nom,
+        position=ville.position,
+        description=ville.description,
+        latitude=ville.latitude,
+        longitude=ville.longitude,
+        population=ville.population,
+        meilleure_saison=ville.meilleure_saison,
+        informations_supp=ville.informations_supp
+    )
+    db.add(db_ville)
+    db.commit()
+    db.refresh(db_ville)
+
+    for attraction in ville.attractions:
+        db_ville.attractions.append(models.Attraction(**attraction.dict()))
+
+    for recette in ville.recettes:
+        db_recette = models.Recette(**recette.dict())
+        db.add(db_recette)
+        db_ville.recettes.append(db_recette)
+
+    db.commit()
+    db.refresh(db_ville)
+    return db_ville
+@app.get("/api/villes/{nom_ville}", response_model=schemas.VilleOut)
+def get_ville(nom_ville: str, db: Session = Depends(get_db)):
+    ville = (
+        db.query(models.Ville)
+        .options(joinedload(models.Ville.attractions), joinedload(models.Ville.recettes))
+        .filter(models.Ville.nom.ilike(nom_ville))
+        .first()
+    )
+    if not ville:
+        raise HTTPException(status_code=404, detail=f"Ville '{nom_ville}' non trouvée")
+    return ville
 
 @app.get("/api/itineraire")
 async def get_itineraire_complet():
@@ -99,15 +122,6 @@ async def get_itineraire_complet():
 def hello_world():
     return {"message": "Bienvenue sur Japan Inside API!"}
 
-@app.get("/api/articles", response_model=list[schemas.Article])
-def read_articles(db: Session = Depends(get_db)):
-    """Retourne tous les articles"""
-    return crud.get_articles(db)
-
-@app.post("/api/articles", response_model=schemas.Article)
-def create_article(article: schemas.ArticleCreate, db: Session = Depends(get_db)):
-    """Crée un nouvel article"""
-    return crud.create_article(db, article)
 
 @app.get("/api/recettes", response_model=list[schemas.Recette])
 def read_recettes(db: Session = Depends(get_db)):
