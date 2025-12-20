@@ -32,54 +32,56 @@ const Home = () => {
         setVille({ nom, error: err.message });
       });
   }, []);
+useEffect(() => {
+  if (mapRef.current) return; // only initialize once
 
-  useEffect(() => {
-    if (mapRef.current) return; // only initialize once
+  const map = L.map("map").setView([36.2048, 138.2529], 6);
+  mapRef.current = map;
 
-    const map = L.map("map").setView([36.2048, 138.2529], 6);
-    mapRef.current = map;
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution: "© OpenStreetMap",
+    maxZoom: 12,
+    minZoom: 5,
+  }).addTo(map);
 
-    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-      attribution: "© OpenStreetMap",
-      maxZoom: 12,
-      minZoom: 5,
-    }).addTo(map);
+  map.setMaxBounds([[30, 128], [46, 146]]);
+  map.on("click", () => setVille(null));
 
-    map.setMaxBounds([[30, 128], [46, 146]]);
-    map.on("click", () => setVille(null));
+  // Wrap async code in IIFE
+  (async () => {
+    const villesData = await getVilles(); // getVilles still sets state internally
+    const points = [];
 
-    getVilles().then((villes) => {
-      const points = [];
+    villesData.forEach((v) => {
+      points.push([v.latitude, v.longitude]);
 
-      villes.forEach((v) => {
-        points.push([v.latitude, v.longitude]);
-
-        const icon = L.icon({
-          iconUrl:
-            "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
-          shadowUrl:
-            "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-          iconSize: [30, 46],
-          iconAnchor: [15, 46],
-          popupAnchor: [0, -46],
-        });
-
-        L.marker([v.latitude, v.longitude], { icon, title: v.nom })
-          .addTo(map)
-          .on("click", () => onVilleClick(v.nom));
+      const icon = L.icon({
+        iconUrl:
+          "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+        shadowUrl:
+          "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
+        iconSize: [30, 46],
+        iconAnchor: [15, 46],
+        popupAnchor: [0, -46],
       });
 
-      if (points.length) {
-        L.polyline(points, {
-          color: "#667eea",
-          weight: 4,
-          opacity: 0.8,
-          dashArray: "10,10",
-          lineCap: "round",
-        }).addTo(map);
-      }
+      L.marker([v.latitude, v.longitude], { icon, title: v.nom })
+        .addTo(map)
+        .on("click", () => onVilleClick(v.nom));
     });
-  }, [onVilleClick]);
+
+    if (points.length) {
+      L.polyline(points, {
+        color: "#667eea",
+        weight: 4,
+        opacity: 0.8,
+        dashArray: "10,10",
+        lineCap: "round",
+      }).addTo(map);
+    }
+  })();
+}, [onVilleClick]);
+
 
   return (
     <>
