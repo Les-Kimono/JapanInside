@@ -80,8 +80,10 @@ async function getVilles() {
     <>
       <div className="map-title">
         <h1>🇯🇵 Japan Inside - Itinéraire au Japon</h1>
-     
-        <p>{}</p>
+    
+<p>
+  {villes && villes.map(v => v.nom).join(" → ")}
+</p>
       </div>
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
 
