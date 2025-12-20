@@ -1,4 +1,4 @@
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, joinedload
 from typing import List, Optional
 import models, schemas
 
@@ -12,8 +12,16 @@ def create_ville(db: Session, ville: schemas.VilleCreate) -> models.Ville:
     return db_ville
 
 def get_villes(db: Session, skip: int = 0, limit: int = 100) -> List[models.Ville]:
-    return db.query(models.Ville).offset(skip).limit(limit).all()
-
+    return (
+        db.query(models.Ville)
+        .options(
+            joinedload(models.Ville.attractions), 
+            joinedload(models.Ville.recettes)      
+        )
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
 def get_ville(db: Session, ville_id: int) -> Optional[models.Ville]:
     return db.query(models.Ville).filter(models.Ville.id == ville_id).first()
 

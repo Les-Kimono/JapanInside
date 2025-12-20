@@ -10,8 +10,8 @@ class VilleBase(BaseModel):
     longitude: Optional[float] = None
     population: Optional[int] = None
     meilleure_saison: Optional[str] = None
-    informations_supp: Optional[Dict[str, Any]] = None
-
+    climat: Optional[str] = None
+ 
 
 
 class Ville(VilleBase):
@@ -56,7 +56,7 @@ class VilleCreate(BaseModel):
     longitude: Optional[float] = None
     population: Optional[int] = None
     meilleure_saison: Optional[str] = None
-    informations_supp: Optional[Dict[str, Any]] = None
+    climat: Optional[str] = None
 
     attractions: Optional[List[AttractionCreate]] = []
     recettes: Optional[List[RecetteCreate]] = []
@@ -88,7 +88,7 @@ class VilleOut(BaseModel):
     longitude: Optional[float]
     population: Optional[int]
     meilleure_saison: Optional[str]
-    informations_supp: Optional[Dict[str, Any]] = None
+    climat: Optional[str]
     attractions: List[AttractionOut] = []
     recettes: List[RecetteOut] = []
     class Config:

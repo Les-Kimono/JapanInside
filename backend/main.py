@@ -9,6 +9,9 @@ from sqlalchemy.orm import joinedload
 from fastapi.staticfiles import StaticFiles
 import json
 
+import create_tables 
+import insert_data
+
 with open("villes.json", "r", encoding="utf-8") as f:
     villes_data = json.load(f)
   
@@ -53,14 +56,15 @@ def hello_world():
 
 
 # API pour les données des villes
-@app.get("/api/villes", response_model=list[schemas.Ville])
+@app.get("/api/villes", response_model=list[schemas.VilleOut])
 async def get_all_villes(db: Session = Depends(get_db)):
     """Retourne toutes les villes disponibles"""
     return crud.get_villes(db)
 
 
-@app.post("/api/villes", response_model=schemas.Ville)
 
+
+@app.post("/api/villes", response_model=schemas.Ville)
 def create_ville(
      ville: schemas.VilleCreate,       
     db: Session = Depends(get_db) 
@@ -73,12 +77,12 @@ def create_ville(
         longitude=ville.longitude,
         population=ville.population,
         meilleure_saison=ville.meilleure_saison,
-        informations_supp=ville.informations_supp
+        climat=ville.climat
     )
     db.add(db_ville)
     db.commit()
     db.refresh(db_ville)
-
+    print(ville.attractions)
     for attraction in ville.attractions:
         db_ville.attractions.append(models.Attraction(**attraction.dict()))
 
@@ -90,6 +94,18 @@ def create_ville(
     db.commit()
     db.refresh(db_ville)
     return db_ville
+
+
+@app.post("/api/createDB")
+def setup():
+    create_tables.execute()
+    return {}, 200
+
+@app.post("/api/insertDATA")
+def insert():
+    insert_data.execute()
+    return {}, 200
+
 @app.get("/api/villes/{nom_ville}", response_model=schemas.VilleOut)
 def get_ville(nom_ville: str, db: Session = Depends(get_db)):
     ville = (
@@ -101,6 +117,7 @@ def get_ville(nom_ville: str, db: Session = Depends(get_db)):
     if not ville:
         raise HTTPException(status_code=404, detail=f"Ville '{nom_ville}' non trouvée")
     return ville
+
 
 @app.get("/api/itineraire")
 async def get_itineraire_complet():

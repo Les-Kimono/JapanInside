@@ -1,80 +1,123 @@
-{
-    "Tokyo": {
-        "nom": "Tokyo",
-        "latitude": 35.6762,
-        "longitude": 139.6503,
-        "description": "Capitale du Japon, mégapole vibrante et centre économique",
-        "population": "~14 millions",
-        "attractions": ["Tour de Tokyo", "Senso-ji", "Shibuya Crossing", "Palais Impérial"],
-        "informations_supp": {
-            "climat": "Subtropical humide",
-            "meilleure_saison": "Printemps (mars-mai)",
-            "specialites": "Sushi, Ramen, Tempura"
-        }
-    },
-    "Hakone": {
-        "nom": "Hakone",
-        "latitude": 35.2324,
-        "longitude": 139.1063,
-        "description": "Station thermale dans les montagnes, vue sur le Mont Fuji",
-        "population": "~13,000",
-        "attractions": ["Lac Ashi", "Owakudani", "Musée en plein air", "Sources chaudes"],
-        "informations_supp": {
-            "climat": "Montagnard",
-            "meilleure_saison": "Automne pour les couleurs",
-            "specialites": "Œufs noirs (Kuro-tamago), Onsen"
-        }
-    },
-    "Kyoto": {
-        "nom": "Kyoto",
-        "latitude": 35.0116,
-        "longitude": 135.7681,
-        "description": "Ancienne capitale impériale, cœur culturel du Japon",
-        "population": "~1.5 million",
-        "attractions": ["Fushimi Inari", "Kinkaku-ji", "Gion", "Kiyomizu-dera"],
-        "informations_supp": {
-            "climat": "Tempéré",
-            "meilleure_saison": "Printemps (cerisiers) et Automne (érables)",
-            "specialites": "Kaiseki, Matcha, Yatsuhashi"
-        }
-    },
-    "Nara": {
-        "nom": "Nara",
-        "latitude": 34.6851,
-        "longitude": 135.8048,
-        "description": "Ancienne capitale, connue pour ses temples et ses daims",
-        "population": "~350,000",
-        "attractions": ["Todai-ji", "Parc de Nara", "Daibutsu", "Kasuga-taisha"],
-        "informations_supp": {
-            "climat": "Tempéré",
-            "meilleure_saison": "Printemps",
-            "specialites": "Kaki-no-hazushi (sushi au persimmon)"
-        }
-    },
-    "Osaka": {
-        "nom": "Osaka",
-        "latitude": 34.6937,
-        "longitude": 135.5023,
-        "description": "Ville dynamique connue pour sa cuisine et son château",
-        "population": "~2.7 millions",
-        "attractions": ["Château d'Osaka", "Dotonbori", "Universal Studios", "Umeda Sky Building"],
-        "informations_supp": {
-            "climat": "Subtropical humide",
-            "meilleure_saison": "Printemps et Automne",
-            "specialites": "Takoyaki, Okonomiyaki, Kushikatsu"
-        }
-    },
-    "Hiroshima": {
-        "nom": "Hiroshima",
-        "latitude": 34.3853,
-        "longitude": 132.4553,
-        "description": "Ville historique, symbole de paix et de reconstruction",
-        "population": "~1.2 million",
-        "attractions": ["Mémorial de la Paix", "Dôme de Genbaku", "Miyajima", "Château d'Hiroshima"],
-        "informations_supp": {
-            "climat": "Subtropical humide",
-            "meilleure_saison": "Printemps",
-            "specialites": "Okonomiyaki d'Hiroshima, Huîtres"
-        }
-}
-}
+[
+  {
+    "nom": "Tokyo",
+    "position": 1,
+    "latitude": 35.6762,
+    "longitude": 139.6503,
+    "description": "Capitale du Japon, mégapole vibrante et centre économique",
+    "population": 14000000,
+    "meilleure_saison": "Printemps (mars-mai)",
+    "climat": "Subtropical humide",
+    "attractions": [
+      { "nom": "Tour de Tokyo", "description": "Tour emblématique offrant une vue panoramique" },
+      { "nom": "Senso-ji", "description": "Temple bouddhiste historique" },
+      { "nom": "Shibuya Crossing", "description": "Carrefour piéton le plus fréquenté au monde" },
+      { "nom": "Palais Impérial", "description": "Résidence de l'empereur du Japon" }
+    ],
+    "recettes": [
+      { "nom": "Sushi", "description": "Plat japonais à base de riz vinaigré et poisson" },
+      { "nom": "Ramen", "description": "Soupe de nouilles japonaise" },
+      { "nom": "Tempura", "description": "Beignets de légumes et fruits de mer" }
+    ]
+  },
+  {
+    "nom": "Hakone",
+    "position": 2,
+    "latitude": 35.2324,
+    "longitude": 139.1063,
+    "description": "Station thermale dans les montagnes avec vue sur le Mont Fuji",
+    "population": 13000,
+    "meilleure_saison": "Automne",
+    "climat": "Montagnard",
+    "attractions": [
+      { "nom": "Lac Ashi", "description": "Lac volcanique avec vue sur le Mont Fuji" },
+      { "nom": "Owakudani", "description": "Vallée volcanique active" },
+      { "nom": "Musée en plein air", "description": "Musée de sculptures en extérieur" },
+      { "nom": "Sources chaudes", "description": "Onsen traditionnels japonais" }
+    ],
+    "recettes": [
+      { "nom": "Kuro-tamago", "description": "Œufs noirs cuits dans les sources volcaniques" }
+    ]
+  },
+  {
+    "nom": "Kyoto",
+    "position": 3,
+    "latitude": 35.0116,
+    "longitude": 135.7681,
+    "description": "Ancienne capitale impériale, cœur culturel du Japon",
+    "population": 1500000,
+    "meilleure_saison": "Printemps et Automne",
+    "climat": "Tempéré",
+    "attractions": [
+      { "nom": "Fushimi Inari", "description": "Sanctuaire célèbre pour ses milliers de torii" },
+      { "nom": "Kinkaku-ji", "description": "Temple d'or emblématique" },
+      { "nom": "Gion", "description": "Quartier historique des geishas" },
+      { "nom": "Kiyomizu-dera", "description": "Temple offrant une vue panoramique sur la ville" }
+    ],
+    "recettes": [
+      { "nom": "Kaiseki", "description": "Cuisine traditionnelle japonaise raffinée" },
+      { "nom": "Matcha", "description": "Thé vert en poudre" },
+      { "nom": "Yatsuhashi", "description": "Gâteau sucré à base de riz et de cannelle" }
+    ]
+  },
+  {
+    "nom": "Nara",
+    "position": 4,
+    "latitude": 34.6851,
+    "longitude": 135.8048,
+    "description": "Ancienne capitale connue pour ses temples et ses daims",
+    "population": 350000,
+    "meilleure_saison": "Printemps",
+    "climat": "Tempéré",
+    "attractions": [
+      { "nom": "Todai-ji", "description": "Temple abritant le Grand Bouddha" },
+      { "nom": "Parc de Nara", "description": "Parc célèbre pour ses daims en liberté" },
+      { "nom": "Daibutsu", "description": "Statue géante de Bouddha" },
+      { "nom": "Kasuga-taisha", "description": "Sanctuaire shinto aux lanternes" }
+    ],
+    "recettes": [
+      { "nom": "Kaki-no-hazushi", "description": "Sushi traditionnel au kaki fermenté" }
+    ]
+  },
+  {
+    "nom": "Osaka",
+    "position": 5,
+    "latitude": 34.6937,
+    "longitude": 135.5023,
+    "description": "Ville dynamique connue pour sa cuisine et son château",
+    "population": 2700000,
+    "meilleure_saison": "Printemps et Automne",
+    "climat": "Subtropical humide",
+    "attractions": [
+      { "nom": "Château d'Osaka", "description": "Château historique emblématique" },
+      { "nom": "Dotonbori", "description": "Quartier animé de restaurants et néons" },
+      { "nom": "Universal Studios Japan", "description": "Parc d'attractions populaire" },
+      { "nom": "Umeda Sky Building", "description": "Gratte-ciel avec observatoire" }
+    ],
+    "recettes": [
+      { "nom": "Takoyaki", "description": "Boulettes de poulpe" },
+      { "nom": "Okonomiyaki", "description": "Crêpe japonaise salée" },
+      { "nom": "Kushikatsu", "description": "Brochettes panées frites" }
+    ]
+  },
+  {
+    "nom": "Hiroshima",
+    "position": 6,
+    "latitude": 34.3853,
+    "longitude": 132.4553,
+    "description": "Ville symbole de paix et de reconstruction",
+    "population": 1200000,
+    "meilleure_saison": "Printemps",
+    "climat": "Subtropical humide",
+    "attractions": [
+      { "nom": "Mémorial de la Paix", "description": "Lieu de mémoire du bombardement atomique" },
+      { "nom": "Dôme de Genbaku", "description": "Vestige classé au patrimoine mondial" },
+      { "nom": "Miyajima", "description": "Île célèbre pour son torii flottant" },
+      { "nom": "Château d'Hiroshima", "description": "Château historique reconstruit" }
+    ],
+    "recettes": [
+      { "nom": "Okonomiyaki d'Hiroshima", "description": "Version locale du plat emblématique" },
+      { "nom": "Huîtres", "description": "Spécialité locale de la région" }
+    ]
+  }
+]
