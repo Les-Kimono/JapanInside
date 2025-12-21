@@ -15,6 +15,7 @@ from database import Base, SessionLocal, engine
 from fastapi import Body, Depends, FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy.orm import Session, joinedload
+from types import Optional
 
 # Load villes data from JSON
 with open("villes.json", "r", encoding="utf-8") as f:
@@ -82,7 +83,7 @@ def reorder_villes(
 ):
     """Update the order of villes according to client input."""
     for item in new_order:
-        ville = (
+        ville: Optional[models.Ville] = (
             db.query(models.Ville).filter(models.Ville.id == item.id).first()
         )
         if ville:
