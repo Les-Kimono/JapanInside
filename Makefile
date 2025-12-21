@@ -14,3 +14,4 @@ purge:
 	docker-compose down -v
 
 restart: stop start
+build: docker-compose -f docker-compose.prod.yml up --build -d

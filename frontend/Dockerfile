@@ -1,6 +1,6 @@
 
 FROM node:20-slim
-
+ENV VITE_API_URL=http://localhost:8000
 WORKDIR /app
 
 COPY package*.json ./
