@@ -9,7 +9,7 @@ from sqlalchemy.orm import Session
 JSON_FILE = "villes.json"
 
 
-def execute():
+def execute() -> None:
     """
     Insert.
 

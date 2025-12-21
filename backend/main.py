@@ -113,23 +113,25 @@ def update_ville(
     # Remove old attractions and recettes
     for attr in list(ville.attractions):
         db.delete(attr)
-    ville.attractions = []
+    ville.attractions.clear()
 
     for rec in list(ville.recettes):
         db.delete(rec)
-    ville.recettes = []
+    ville.recettes.clear()
 
     db.commit()
 
-    # Add new attractions
-    for attraction in ville_data.attractions:
-        ville.attractions.append(models.Attraction(**attraction.dict()))
+    # Add new attractions (only if not None)
+    if ville_data.attractions:
+        for attraction in ville_data.attractions:
+            ville.attractions.append(models.Attraction(**attraction.dict()))
 
-    # Add new recettes
-    for recette in ville_data.recettes:
-        db_recette = models.Recette(**recette.dict())
-        db.add(db_recette)
-        ville.recettes.append(db_recette)
+    # Add new recettes (only if not None)
+    if ville_data.recettes:
+        for recette in ville_data.recettes:
+            db_recette = models.Recette(**recette.dict())
+            db.add(db_recette)
+            ville.recettes.append(db_recette)
 
     db.commit()
     db.refresh(ville)
@@ -153,13 +155,15 @@ def create_ville(ville: schemas.VilleCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_ville)
 
-    for attraction in ville.attractions:
-        db_ville.attractions.append(models.Attraction(**attraction.dict()))
+    if ville.attractions:
+        for attraction in ville.attractions:
+            db_ville.attractions.append(models.Attraction(**attraction.dict()))
 
-    for recette in ville.recettes:
-        db_recette = models.Recette(**recette.dict())
-        db.add(db_recette)
-        db_ville.recettes.append(db_recette)
+    if ville.recettes:
+        for recette in ville.recettes:
+            db_recette = models.Recette(**recette.dict())
+            db.add(db_recette)
+            db_ville.recettes.append(db_recette)
 
     db.commit()
     db.refresh(db_ville)
