@@ -97,7 +97,9 @@ def update_ville(
     id: int, ville_data: schemas.VilleCreate, db: Session = Depends(get_db)
 ):
     """Update an existing ville, including attractions and recettes."""
-    ville: Optional[models.Ville] = db.query(models.Ville).filter(models.Ville.id == id).first()
+    ville: Optional[models.Ville] = (
+        db.query(models.Ville).filter(models.Ville.id == id).first()
+    )
     if ville is None:
         raise HTTPException(status_code=404, detail="Ville non trouvée")
 
