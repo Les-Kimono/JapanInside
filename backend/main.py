@@ -63,6 +63,20 @@ async def get_all_attractions(db: Session = Depends(get_db)):
 
     return crud.get_attractions(db)
 
+@app.put("/api/villes/reorder")
+def reorder_villes(
+    new_order: list[schemas.VilleOrder] = Body(...),
+    db: Session = Depends(get_db)
+):
+    for item in new_order:
+        ville = db.query(models.Ville).filter(models.Ville.id == item.id).first()
+        if ville:
+            ville.position = item.position
+
+    db.commit()
+    return {"message": "OK"}
+    
+
 @app.put("/api/villes/{id}", response_model=schemas.VilleOut)
 def update_ville(id: int, ville_data: schemas.VilleCreate, db: Session = Depends(get_db)):
     # Récupérer la ville existante
@@ -233,26 +247,8 @@ async def health_check():
             "insert_data": "/api/insertDATA [POST]"
         }
     }
-@app.put("/api/villes/reorder")
-def reorder_villes(new_order, db: Session = Depends(get_db)):
-    print("="*16)
-    print(new_order)
-    print("="*16)
-    
-    for position, item in enumerate(new_order, start=1):
-        ville = db.query(models.Ville).filter(models.Ville.id == item.id).first()
-        if ville:
-            ville.position = position
-    
-    db.commit()
 
-    villes_sorted = db.query(models.Ville).order_by(models.Ville.position).all()
-    return {
-        "message": "Ordre des villes mis à jour",
-        "villes": [{"id": v.id, "nom": v.nom, "position": v.position} for v in villes_sorted]
-    }
-    
-    
+
     
     
 if __name__ == "__main__":
