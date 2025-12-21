@@ -145,7 +145,7 @@ useEffect(() => {
   className="specialites-btn"
   onClick={() => setShowSpecialitesModal(true)}
 >
-  Spécialités Japonaises
+  Spécialités Japonaisesss
 </button>
         <Link
           to={'/admin'}
