@@ -84,22 +84,22 @@ useEffect(() => {
   })();
 }, [onVilleClick]);
 const [specialitesJP, setSpecialitesJP] = useState([])
-const getSpecialitesJP = async () => {
+
+useEffect(() => {
+  const fetchSpecialites = async () => {
     try {
       const res = await fetch(
         "https://www.themealdb.com/api/json/v1/1/filter.php?a=japanese"
       );
       const data = await res.json();
-      console.log(data.meals)
       setSpecialitesJP(data.meals || []);
     } catch (err) {
       console.error("Erreur chargement spécialités :", err);
     }
   };
-useEffect(() => {
-  getSpecialitesJP()
-}, [])
 
+  fetchSpecialites();
+}, []);
   return (
     <>
 
