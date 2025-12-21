@@ -22,8 +22,7 @@ models.Base.metadata.create_all(bind=engine)
 app = FastAPI(title="Japan Inside API")
 origins = [
     "http://localhost:5173",
-    "http://127.0.0.1:5173",
-    "http://localhost"
+    "http://127.0.0.1:5173"
 ]
 
 app.add_middleware(
