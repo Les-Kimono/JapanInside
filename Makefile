@@ -31,3 +31,6 @@ all-purge:
 	@echo "All Docker resources have been purged."
 pre-commit:
 	pre-commit run --all-files --config .github/pre-commit.yml
+
+tests:
+	pytest backend/tests -v
