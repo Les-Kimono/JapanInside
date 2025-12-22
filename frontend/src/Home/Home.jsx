@@ -10,12 +10,7 @@ const Home = () => {
   const [showSpecialitesModal, setShowSpecialitesModal] = useState(false);
   const [specialitesJP, setSpecialitesJP] = useState([]);
 
-  const getVilles = async () => {
-    const res = await fetch("/api/villes");
-    const data = await res.json();
-    setVilles(data);
-    return data;
-  };
+ 
 
   const onVilleClick = useCallback((nom) => {
     if (!nom) return setVille(null);
@@ -26,7 +21,19 @@ const Home = () => {
       .catch((err) => setVille({ nom, error: err.toString() }));
   }, []);
 
-  useEffect(() => { getVilles(); }, []);
+useEffect(() => {
+  const fetchVilles = async () => {
+    try {
+      const res = await fetch("/api/villes");
+      const data = await res.json();
+      setVilles(data);
+    } catch (err) {
+      console.error("Erreur récupération villes :", err);
+    }
+  };
+
+  fetchVilles();
+}, []);
 
   useEffect(() => {
     const fetchSpecialites = async () => {
