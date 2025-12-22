@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import "./villeStyle.css";
-import Card from "./templates/Card";
+import Card from "./components/Card";
 const VilleDetail = () => {
   const { villeP } = useParams();
   const [ville, setVille] = useState(null);
