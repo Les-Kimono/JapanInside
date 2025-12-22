@@ -268,8 +268,8 @@ const Admin = () => {
               {isAdding
                 ? "Ajouter une ville"
                 : isViewing
-                  ? `Ville: ${selectedVille.nom}`
-                  : `Modifier: ${selectedVille.nom}`}
+                ? `Ville: ${selectedVille.nom}`
+                : `Modifier: ${selectedVille.nom}`}
             </h2>
             <div className="modal-fields" style={{ marginTop: "25px" }}>
               <label>Nom</label>
