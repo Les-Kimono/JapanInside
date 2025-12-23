@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: Luucas7/japaninside-backend:latest
+          image: luucas71/japaninside-backend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8000

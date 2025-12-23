@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
         - name: frontend
-          image: Luucas7/japaninside-frontend:latest
+          image: luucas71/japaninside-frontend:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 5173
