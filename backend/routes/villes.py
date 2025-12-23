@@ -5,7 +5,7 @@ from sqlalchemy.orm import Session
 from utils.get_db import get_db
 import schemas
 import crud
-import models
+from models import Ville as VilleModel, Attraction as AttractionModel, Recette as RecetteModel
 router = APIRouter()
 
 @router.get("/villes", response_model=List[schemas.VilleOut])
@@ -56,8 +56,8 @@ def update_ville(
     id: int, ville_data: schemas.VilleCreate, db: Session = Depends(get_db)
 ):
     """Update an existing ville, including attractions and recettes."""
-    ville: Optional[models.Ville] = (
-        db.query(models.Ville).filter(models.Ville.id == id).first()
+    ville: Optional[VilleModel] = (
+        db.query(VilleModel).filter(VilleModel.id == id).first()
     )
     if ville is None:
         raise HTTPException(status_code=404, detail="Ville non trouvée")
@@ -83,11 +83,11 @@ def update_ville(
 
     if ville_data.attractions:
         for attraction in ville_data.attractions:
-            ville.attractions.append(models.Attraction(**attraction.dict()))
+            ville.attractions.append(AttractionModel(**attraction.dict()))
 
     if ville_data.recettes:
         for recette in ville_data.recettes:
-            db_recette = models.Recette(**recette.dict())
+            db_recette = RecetteModel(**recette.dict())
             db.add(db_recette)
             ville.recettes.append(db_recette)
 

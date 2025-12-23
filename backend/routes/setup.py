@@ -6,7 +6,7 @@ from fastapi import APIRouter
 from sqlalchemy.orm import Session
 from fastapi import Depends, HTTPException
 
-from database import Base, engine
+from utils.database import Base, engine
 
 import utils.create_tables as create_tables
 import utils.insert_data as insert_data

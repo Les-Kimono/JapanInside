@@ -5,8 +5,7 @@ Provides endpoints for villes, attractions, recettes, and database management.
 
 import json
 
-import models
-from database import engine
+from utils.database import engine, Base
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routes import health
@@ -15,12 +14,13 @@ from routes import attractions
 from routes import setup
 from routes import villes
 
+import models
 
 with open("data/villes.json", "r", encoding="utf-8") as f:
     villes_data = json.load(f)
 
 
-models.Base.metadata.create_all(bind=engine)
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(title="Japan Inside API")
 origins = ["http://localhost:5173", "http://127.0.0.1:5173"]

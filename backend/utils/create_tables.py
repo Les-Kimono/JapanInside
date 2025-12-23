@@ -6,7 +6,7 @@ Authors:
     Aman GHAZANFAR
 """
 
-from database import Base, engine
+from .database import Base, engine
 from sqlalchemy import text
 
 

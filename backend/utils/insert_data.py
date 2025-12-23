@@ -3,7 +3,7 @@
 import json
 
 import models
-from database import SessionLocal
+from .database import SessionLocal
 from sqlalchemy.orm import Session
 
 JSON_FILE = "data/villes.json"

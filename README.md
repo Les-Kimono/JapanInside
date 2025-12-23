@@ -50,21 +50,20 @@ Ce projet est une application full-stack, permettant d'organiser un voyage au Ja
 ## Tree
 
 ```
+.
 ├── backend
-│   └── tests
+│   ├── __pycache__
+│   ├── crud
+│   ├── data
+│   ├── models
+│   ├── routes
+│   ├── schemas
+│   ├── tests
+│   └── utils
 ├── frontend
+│   ├── node_modules
 │   ├── public
 │   └── src
-│       ├── Admin
-│       │   ├── components
-│       │   ├── hooks
-│       │   └── services
-│       ├── Home
-│       │   └── components
-│       │       └── Map
-│       ├── assets
-│       ├── components
-│       └── tests
 └── k8s
     ├── backend
     ├── config
