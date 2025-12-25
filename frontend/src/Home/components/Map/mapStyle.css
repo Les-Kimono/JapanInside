@@ -111,3 +111,10 @@ body {
     background: #C73E3A;
     color: #F9F7F2;
 }
+.custom-tooltip {
+    display: flex;
+    margin-top:-50px;
+    border-radius: 15px;
+    flex-direction:column;
+    gap:15px;
+}

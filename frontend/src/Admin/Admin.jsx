@@ -42,10 +42,7 @@ export default function Admin() {
       for (const a of selectedVille.attractions) {
         if (!a.nom) continue;
         const aCoords = await fetchCoordinatesFromNominatim(a.nom);
-        if (!aCoords) {
-          toast.error(`Attraction introuvable : ${a.nom}`);
-          return;
-        }
+       
         attractions.push({ ...a, ...aCoords, ville_id: selectedVille.id });
       }
 

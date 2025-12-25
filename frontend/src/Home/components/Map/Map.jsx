@@ -57,7 +57,18 @@ useEffect(() => {
 
       const marker = L.marker([v.latitude, v.longitude], { icon, title: v.nom }).addTo(mapRef.current);
       marker.on("click", () => onVilleClick(v.nom));
-
+      marker.bindTooltip(`
+     
+        <b>${v.nom}</b>
+        <div style="background-color: #6832a8;border-radius:15px;color:white;padding: 5px 10px 5px 10px;">
+        Etape : ${v.position} / ${villes.length}
+        </div>
+    
+        `, {
+        permanent: true,    
+        direction: "top",   
+        className: "custom-tooltip" 
+      });
       mapRef.current.markers.push(marker);
     });
 
@@ -74,7 +85,7 @@ useEffect(() => {
     }
   }, [villes, onVilleClick]);
 
-  return <div id="map" style={{ width: "100vw", height: "100vh" }}></div>;
+  return <div id="map" style={{ width: "100vw", height: "100vh", }}></div>;
 };
 
 export default Map;
