@@ -1,0 +1,79 @@
+/* =========================
+   PAGE D'ACCUEIL
+========================= */
+
+/* Styles spécifiques pour la page d'accueil */
+.home-container {
+    background: #ECE8DF;
+    min-height: 100vh;
+    font-family: "Inter", sans-serif;
+}
+
+.home-header {
+    background: #1F2A44;
+    color: #F9F7F2;
+    padding: 3rem 2rem;
+    text-align: center;
+}
+
+.home-header h1 {
+    font-family: "Shippori Mincho", serif;
+    font-size: 2.5rem;
+    letter-spacing: 3px;
+    margin-bottom: 1rem;
+}
+
+.home-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+}
+
+.cta-button {
+    display: inline-block;
+    padding: 1.2rem 2.5rem;
+    margin-top: 2rem;
+
+    font-family: "Shippori Mincho", serif;
+    font-size: 1.1rem;
+    letter-spacing: 1px;
+    text-decoration: none;
+
+    background: #C73E3A;
+    color: #F9F7F2;
+    border: none;
+
+    box-shadow:
+            0 6px 0 #8E2B28,
+            0 12px 20px rgba(0, 0, 0, 0.2);
+
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.cta-button:hover {
+    transform: translateY(2px);
+    box-shadow:
+            0 3px 0 #8E2B28,
+            0 6px 10px rgba(0, 0, 0, 0.2);
+}
+
+.features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 3rem;
+}
+
+.feature-card {
+    background: #F9F7F2;
+    padding: 2rem;
+    border: 2px solid #1F2A44;
+    border-radius: 4px;
+}
+
+.feature-card h3 {
+    font-family: "Shippori Mincho", serif;
+    color: #1F2A44;
+    margin-bottom: 1rem;
+}
