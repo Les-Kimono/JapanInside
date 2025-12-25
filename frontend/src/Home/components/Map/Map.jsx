@@ -41,10 +41,10 @@ const Map = ({ villes, onVilleClick }) => {
 
       const icon = L.icon({
         iconUrl:
-          "https://raw.githubusercontent.com/pointhi/leaflet-color-markers/master/img/marker-icon-2x-red.png",
+            "https://cdn-icons-png.flaticon.com/512/684/684908.png",
         shadowUrl:
           "https://cdnjs.cloudflare.com/ajax/libs/leaflet/0.7.7/images/marker-shadow.png",
-        iconSize: [30, 46],
+        iconSize: [30, 30],
         iconAnchor: [15, 46],
         popupAnchor: [0, -46],
       });

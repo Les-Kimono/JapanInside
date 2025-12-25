@@ -1,121 +1,184 @@
+/* RESET */
 a {
-  text-decoration: none;
+    text-decoration: none;
+    color: #C73E3A;
+    font-weight: 500;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  margin: 0;
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  min-height: 100vh;
+    margin: 0;
+    padding: 30px;
+    background: #F5F3EF;
+    font-family: "Inter", sans-serif;
+    color: #2E2E2E;
 }
+
+/* CONTAINER */
 .container {
-  max-width: 1200px;
-  margin: 0 auto;
-  background: white;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    max-width: 1200px;
+    margin: auto;
+    background: #FFFFFF;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.15);
 }
+
+/* HEADER */
 .header {
-  background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
-  color: white;
-  padding: 40px;
-  text-align: center;
+    background:
+            linear-gradient(
+                    rgba(31, 42, 68, 0.85),
+                    rgba(31, 42, 68, 0.85)
+            ),
+            url("https://images.unsplash.com/photo-1549693578-d683be217e58");
+    background-size: cover;
+    background-position: center;
+    color: #F5F3EF;
+    padding: 60px 40px;
+    text-align: center;
 }
+
 .header h1 {
-  font-size: 3rem;
-  margin: 0;
+    font-family: "Noto Serif JP", serif;
+    font-size: 3rem;
+    letter-spacing: 2px;
 }
+
 .header p {
-  font-size: 1.2rem;
-  opacity: 0.9;
-  margin-top: 10px;
+    max-width: 700px;
+    margin: 15px auto 0;
+    opacity: 0.9;
+    font-size: 1.1rem;
 }
+
+/* CONTENT */
 .content {
-  padding: 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
+    padding: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
 }
-.info-section {
-  background: #f8f9fa;
-  padding: 30px;
-  border-radius: 15px;
-}
+
+/* SECTIONS */
+.info-section,
 .attractions-section {
-  background: #f0f7ff;
-  padding: 30px;
-  border-radius: 15px;
+    background: #FAFAFA;
+    border-radius: 16px;
+    padding: 30px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
 }
+
+/* TITRES */
 h2 {
-  color: #2c3e50;
-  border-bottom: 3px solid #667eea;
-  padding-bottom: 10px;
-  margin-top: 0;
+    font-family: "Noto Serif JP", serif;
+    color: #1F2A44;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+    position: relative;
 }
-.back-btn {
-  display: inline-block;
-  padding: 12px 30px;
-  background: #667eea;
-  color: white;
-  text-decoration: none;
-  border-radius: 50px;
-  font-weight: bold;
-  margin-top: 20px;
-  transition: all 0.3s;
+
+h2::after {
+    content: "";
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: #C73E3A;
 }
-.back-btn:hover {
-  background: #5a6fd8;
-  transform: translateY(-2px);
+
+/* INFO TEXT */
+.info-section p {
+    line-height: 1.7;
+    margin: 8px 0;
 }
-.map-container {
-  height: 300px;
-  border-radius: 15px;
-  overflow: hidden;
-  margin-top: 20px;
-  border: 3px solid #667eea;
+
+/* RECETTES */
+.recette-card {
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 20px;
+    border-left: 4px solid #C73E3A;
 }
-@media (max-width: 768px) {
-  .content {
-    grid-template-columns: 1fr;
-  }
-  .header h1 {
-    font-size: 2rem;
-  }
+
+.recette-card h4 {
+    margin: 0 0 8px;
+    font-weight: 600;
 }
+
+.ingredient-tag {
+    background: #F0EDE7;
+    color: #1F2A44;
+    padding: 4px 10px;
+    border-radius: 999px;
+    font-size: 0.8rem;
+}
+
+/* ATTRACTIONS */
 .attractions-list {
-  list-style: none;
-  padding: 0;
-  margin: 1rem 0;
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
 .attraction-item {
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 12px;
-  padding: 12px 16px;
-  margin-bottom: 12px;
-  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.08);
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    background: #FFFFFF;
+    border-radius: 14px;
+    padding: 16px;
+    margin-bottom: 14px;
+    border-left: 4px solid #1F2A44;
+    transition: all 0.25s ease;
 }
 
 .attraction-item:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 10px 22px rgba(0, 0, 0, 0.12);
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.12);
 }
 
 .attraction-name {
-  margin: 0 0 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #2d3748;
+    font-weight: 600;
+    color: #1F2A44;
 }
 
 .attraction-description {
-  margin: 0;
-  font-size: 0.9rem;
-  color: #4a5568;
-  line-height: 1.4;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* MAP */
+.map-container {
+    height: 320px;
+    border-radius: 14px;
+    overflow: hidden;
+    border: 2px solid #1F2A44;
+    margin-top: 20px;
+}
+
+/* BACK BUTTON */
+.back-btn {
+    display: inline-block;
+    margin-top: 30px;
+    padding: 14px 36px;
+    border-radius: 999px;
+    background: #1F2A44;
+    color: #F5F3EF;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.back-btn:hover {
+    background: #C73E3A;
+    transform: translateY(-2px);
+}
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+    .content {
+        grid-template-columns: 1fr;
+    }
+
+    .header h1 {
+        font-size: 2rem;
+    }
 }

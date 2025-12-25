@@ -1,3 +1,5 @@
+import "./infoPanel.css";
+
 const VilleInfoPanel = ({ ville, onClose }) => {
   if (!ville) return null;
 

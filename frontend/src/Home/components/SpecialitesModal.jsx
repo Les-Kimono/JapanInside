@@ -1,3 +1,5 @@
+import "./infoPanel.css"
+
 const SpecialitesModal = ({ show, onClose, specialites }) => {
   if (!show) return null;
 
