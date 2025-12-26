@@ -122,6 +122,21 @@
    PICTOS ACTIONS
 ========================= */
 
+.ville-controls {
+    display:flex;
+    flex-direction:column;
+    gap:15px;
+}
+
+.ville-actions {
+    flex:5;
+    display:flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    align-items:center;
+    gap: 25px;
+}
+
 .ville-controls button,
 .ville-actions button {
     width: 38px;
@@ -154,34 +169,20 @@
             inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 
-.fas .view-btn:hover {
-    background: linear-gradient(to bottom, #1F2A44 0%, #151E35 100%);
-    color: #F9F7F2;
-    transform: translateY(2px) scale(1);
-    box-shadow: 0 1px 0 #1F2A44;
-}
 
-.fas .edit-btn:hover {
-    background: linear-gradient(to bottom, #667085 0%, #5A6478 100%);
-    color: #F9F7F2;
-    transform: translateY(2px) scale(1);
-}
 
-.fas .delete-btn {
-    border-color: #C73E3A;
-    color: #C73E3A;
-    background: linear-gradient(to bottom, #F9F7F2 0%, #F5F3EC 100%);
+.fa-trash {
+    color: #ff4943;
 }
-
-.fas .delete-btn:hover {
-    background: linear-gradient(to bottom, #C73E3A 0%, #B13632 100%);
-    color: #F9F7F2;
-    transform: translateY(2px) scale(1);
-    border-color: #C73E3A;
+.fa-pen-to-square {
+      color: #5f8aff;
 }
-
+.fa-eye {
+    color: #899797;
+}
+ 
 .ville-name {
-    flex: 1;
+
 
     font-family: "Shippori Mincho", serif;
     font-size: 1.1rem;
@@ -239,6 +240,11 @@
     position: relative;
 }
 
+.modal-fields {
+    display:flex;
+    flex-direction: column;
+    gap: 25px;
+}
 
 .modal-fields input,
 .modal-fields textarea {
@@ -341,4 +347,22 @@
 .action-button:nth-child(2) {
     background: linear-gradient(to bottom, #1F2A44 0%, #151E35 100%);
     color: #F9F7F2;
+}
+.save-btn {
+    background: #399457;
+    box-shadow: none;
+}
+.close-btn {
+    background: #707070;
+    box-shadow: none;
+}
+.close-btn:hover {
+    box-shadow:none;
+    color:white !important;
+
+}
+.save-btn:hover {
+    box-shadow:none;
+    color:white !important;
+
 }

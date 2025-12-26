@@ -15,7 +15,6 @@ from routes import setup
 from routes import villes
 from routes import authentification
 
-import models
 
 with open("data/villes.json", "r", encoding="utf-8") as f:
     villes_data = json.load(f)

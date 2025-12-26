@@ -10,7 +10,7 @@ const Home = () => {
   const [villes, setVilles] = useState([]);
   const [showSpecialitesModal, setShowSpecialitesModal] = useState(false);
   const [specialitesJP, setSpecialitesJP] = useState([]);
-  const [isAuthenticated] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
 
 
@@ -59,12 +59,18 @@ useEffect(() => {
 
       <div className="ui-overlay">
         <button className="specialites-btn" onClick={() => setShowSpecialitesModal(true)}>Spécialités Japonaises</button>
-          {isAuthenticated && (
+          {isAuthenticated ? (
               <Link
           to={'/admin'}
           className="admin-btn">
           Administration
-        </Link>)}
+        </Link>) : (
+          <Link
+          to={'/admin'}
+          className="admin-btn">
+          Login
+        </Link>
+        )}
       </div>
 
       <div className="map-title">

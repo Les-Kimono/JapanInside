@@ -179,9 +179,9 @@ export default function VilleModal({
         </div>
 
         <div className="modal-buttons">
-          <button onClick={onClose}>Fermer</button>
+          <button onClick={onClose} className="add-btn close-btn">Fermer</button>
           {!isViewing && (
-            <button onClick={onSave}>
+            <button onClick={onSave} className="add-btn save-btn">
               {isAdding ? "Ajouter" : "Enregistrer"}
             </button>
           )}

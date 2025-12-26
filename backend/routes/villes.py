@@ -1,11 +1,12 @@
 from typing import List, Optional
-from fastapi import APIRouter, Depends, HTTPException, Body
+from fastapi import APIRouter, Depends, HTTPException, Body, Request, status
 from sqlalchemy.orm import Session
 
 from utils.get_db import get_db
 import schemas
 import crud
 from models import Ville as VilleModel, Attraction as AttractionModel, Recette as RecetteModel
+from utils.login_utils import check_login
 router = APIRouter()
 
 @router.get("/villes", response_model=List[schemas.VilleOut])
@@ -25,8 +26,13 @@ def get_ville(nom_ville: str, db: Session = Depends(get_db)):
 
 
 @router.post("/villes", response_model=schemas.VilleOut)
-def create_ville(ville: schemas.VilleCreate, db: Session = Depends(get_db)):
+def create_ville(request: Request, ville: schemas.VilleCreate, db: Session = Depends(get_db)):
     """Create a new ville, including attractions and recettes."""
+    if not check_login(request):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized"
+        )
     db_ville = crud.create_ville(db, ville)
 
     for attraction in ville.attractions or []:
@@ -42,8 +48,13 @@ def create_ville(ville: schemas.VilleCreate, db: Session = Depends(get_db)):
 
 
 @router.put("/villes/reorder")
-def reorder_villes(new_order: list[schemas.VilleOrder] = Body(...), db: Session = Depends(get_db)):
+def reorder_villes(request: Request, new_order: list[schemas.VilleOrder] = Body(...), db: Session = Depends(get_db)):
     """Update the order of villes according to client input."""
+    if not check_login(request):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized"
+        )
     for item in new_order:
         db_ville = crud.get_ville(db, item.id)
         if db_ville:
@@ -53,9 +64,14 @@ def reorder_villes(new_order: list[schemas.VilleOrder] = Body(...), db: Session 
 
 @router.put("/villes/{id}", response_model=schemas.VilleOut)
 def update_ville(
-    id: int, ville_data: schemas.VilleCreate, db: Session = Depends(get_db)
+    request: Request, id: int, ville_data: schemas.VilleCreate, db: Session = Depends(get_db)
 ):
     """Update an existing ville, including attractions and recettes."""
+    if not check_login(request):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized"
+        )
     ville: Optional[VilleModel] = (
         db.query(VilleModel).filter(VilleModel.id == id).first()
     )
@@ -99,8 +115,13 @@ def update_ville(
 
 
 @router.delete("/villes/{id}")
-def delete_ville(id: int, db: Session = Depends(get_db)):
+def delete_ville(request: Request, id: int, db: Session = Depends(get_db)):
     """Delete a ville by ID."""
+    if not check_login(request):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Unauthorized"
+        )
     success = crud.delete_ville(db, id)
     if not success:
         raise HTTPException(status_code=404, detail="Ville non trouvée")

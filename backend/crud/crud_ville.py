@@ -4,6 +4,7 @@ from models import Ville as VilleModel
 import schemas
 
 def create_ville(db: Session, ville: schemas.VilleCreate) -> VilleModel:
+    print(ville)
     db_ville = VilleModel(**ville.dict())
     db.add(db_ville)
     db.commit()

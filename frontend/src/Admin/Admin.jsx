@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ToastContainer, toast } from "react-toastify";
 import "./Admin.css";
 
@@ -9,7 +9,8 @@ import VilleModal from "./components/VilleModal";
 import { useVilles } from "./hooks/useVilles";
 import { fetchCoordinatesFromNominatim } from "./services/geocodingService";
 import * as villeService from "./services/villeService";
-
+import tokenStorageService from "./services/tokenStorageService";
+import { useNavigate } from "react-router-dom";
 export default function Admin() {
   const { villes, fetchVilles, deleteVille, moveVille } = useVilles();
 
@@ -21,6 +22,32 @@ export default function Admin() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
+const navigate = useNavigate();
+
+
+  const checkToken = async (token) => {
+      if (!token) {
+    setIsAuthenticated(false);
+    return;
+  }
+        const res = await fetch("/api/verify-token", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!res.ok) setIsAuthenticated(false);
+        if(res.ok) setIsAuthenticated(true);
+       
+    };
+
+
+useEffect(() => {
+ checkToken(tokenStorageService.getToken())
+  document.body.style.background = "#FEFEFE";
+}, [])
+ 
   const openModal = (mode, ville = null) => {
     setModalMode(mode);
     setSelectedVille(
@@ -32,7 +59,9 @@ export default function Admin() {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            await loginAdmin(username, password);
+            const data = await loginAdmin(username, password);
+            tokenStorageService.setToken(data.token);
+           
             setIsAuthenticated(true);
             setLoginModalOpen(false);
             toast.success("Connexion réussie !");
@@ -84,11 +113,12 @@ export default function Admin() {
         const res = await fetch("/api/login", {
             method: "POST",
             headers: {
-                "Authorization": "Basic " + btoa(`${username}:${password}`)
-            }
+            "Content-Type": "application/json"
+            },
+            body: JSON.stringify({ password })
         });
-
         if (!res.ok) throw new Error("Mot de passe incorrect");
+   
         return res.json();
     };
 
@@ -99,10 +129,10 @@ export default function Admin() {
   
   if (!confirmFlush) return;
   try {
-    let res = await fetch("/api/flushDB", { method: "POST" });
+    let res = await fetch("/api/flushDB", { method: "POST", headers: {"Authorization": `Bearer ${tokenStorageService.getToken()}`} });
     if (!res.ok) throw new Error("Erreur lors du flush de la base");
 
-    res = await fetch("/api/insertDATA", { method: "POST" });
+    res = await fetch("/api/insertDATA", { method: "POST", headers: {"Authorization": `Bearer ${tokenStorageService.getToken()}`} });
     if (!res.ok) throw new Error("Erreur lors de l'insertion des données");
 
     toast.success("Base réinitialisée et données insérées avec succès !");
@@ -113,14 +143,19 @@ export default function Admin() {
     toast.error(`Erreur : ${err.message}`);
   }
 };
-
+const disconnect = () => {
+  tokenStorageService.removeToken();
+  setIsAuthenticated(false);
+  window.location.reload();
+}
   return (
     <div className="admin-container">
       <ToastContainer />
-
+      {isAuthenticated ? ( <>
       <AdminHeader
         onAdd={() => openModal("add")}
         onImport={() => importTemplate()}
+        onDisconnect={() => disconnect()}
       />
 
       <VilleList
@@ -140,10 +175,12 @@ export default function Admin() {
           onSave={handleSave}
         />
       )}
-        if (!isAuthenticated) return (
-        <>
+
             <ToastContainer />
-            {loginModalOpen && (
+           
+        </>) : <div>
+          
+           {loginModalOpen && (
                 <div className="modal-overlay">
                     <div className="modal">
                         <h2>Connexion Admin</h2>
@@ -169,8 +206,13 @@ export default function Admin() {
                     </div>
                 </div>
             )}
-        </>
-        );
+          
+          
+          
+          </div>}
+  
+       
+      
 
     </div>
   );
