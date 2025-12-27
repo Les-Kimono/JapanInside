@@ -23,12 +23,25 @@ global.localStorage = (() => {
 global.fetch = jest.fn();
 
 
-beforeEach(() => {
+beforeEach(async () => {
   localStorage.clear();
-  localStorage.setItem("access_token", "test");
+
+  const loginResponse = await fetch('/api/login', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ username: 'admin', password: 'Tajini' }) 
+  });
+
+  const data = await loginResponse.json();
+
+  if (!data.success || !data.token) {
+    throw new Error('Impossible de récupérer un token pour les tests');
+  }
+
+  localStorage.setItem('access_token', data.token);
+  console.log(localStorage.getItem("access_token"))
   fetch.mockClear();
 });
-
 
 
 
