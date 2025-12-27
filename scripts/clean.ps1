@@ -1,26 +1,45 @@
-# Supprime tout le deploiement
-# Usage: .\scripts\clean.ps1
+# Supprime les ressources Kubernetes JapanInside
+# Usage: 
+#   .\scripts\clean.ps1            # Demande confirmation
+#   .\scripts\clean.ps1 -Force     # Supprime sans confirmation
+#   .\scripts\clean.ps1 -All       # Supprime tout + Minikube
+
+param(
+    [switch]$Force,
+    [switch]$All
+)
 
 Write-Host "========================================================" -ForegroundColor Cyan
-Write-Host "   JapanInside - Nettoyage" -ForegroundColor Cyan
+Write-Host "   JapanInside - Nettoyage Kubernetes" -ForegroundColor Cyan
 Write-Host "========================================================" -ForegroundColor Cyan
 Write-Host ""
 
-Write-Host "Ceci va supprimer toutes les ressources JapanInside" -ForegroundColor Yellow
-$confirm = Read-Host "Continuer? (o/N)"
-
-if ($confirm -ne 'o' -and $confirm -ne 'O') {
-    Write-Host "Annule." -ForegroundColor Gray
-    exit 0
+if ($All) {
+    Write-Host "[WARNING] Mode -All : Suppression complete (Minikube inclus)" -ForegroundColor Red
+} else {
+    Write-Host "Suppression des ressources JapanInside uniquement" -ForegroundColor Yellow
 }
 
-Write-Host "`nNettoyage en cours..." -ForegroundColor Cyan
-minikube stop
-minikube delete
+# Demander confirmation si -Force n'est pas specifie
+if (-not $Force) {
+    $confirm = Read-Host "`nContinuer? (o/N)"
+    if ($confirm -ne 'o' -and $confirm -ne 'O') {
+        Write-Host "Operation annulee." -ForegroundColor Gray
+        exit 0
+    }
+}
+
+Write-Host "`n[CLEAN] Suppression des ressources Kubernetes..." -ForegroundColor Cyan
 kubectl delete -f k8s/frontend/ --ignore-not-found
 kubectl delete -f k8s/backend/ --ignore-not-found
 kubectl delete -f k8s/db/ --ignore-not-found
 kubectl delete -f k8s/config/ --ignore-not-found
 
-Write-Host "`nOK Nettoyage termine!" -ForegroundColor Green
+if ($All) {
+    Write-Host "`n[CLEAN] Arret et suppression de Minikube..." -ForegroundColor Red
+    minikube stop
+    minikube delete
+}
+
+Write-Host "`n[SUCCESS] Nettoyage termine!" -ForegroundColor Green
 Write-Host ""

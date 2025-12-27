@@ -60,8 +60,9 @@ JapanInside est une application full-stack pour organiser un voyage au Japon.
 
 | Côté | Technologie |
 |------|------------|
-| Front-End | ReactJS |
-| Back-End | FastAPI |
+| Front-End | ReactJS + Vite |
+| Reverse Proxy | nginx (production) |
+| Back-End | FastAPI + Uvicorn |
 | Base de données | PostgreSQL |
 | Conteneurisation | Docker |
 | Orchestration | Kubernetes (Minikube) |
@@ -165,6 +166,56 @@ make restart
 https://hub.docker.com/r/luucas71/japaninside-frontend
 https://hub.docker.com/r/luucas71/japaninside-backend
 ```
+
+---
+
+## Architecture Production avec nginx
+
+### Reverse Proxy nginx
+
+En production, le frontend utilise ``nginx`` comme reverse proxy pour :
+
+1. **Servir les fichiers statiques** : HTML, JS, CSS du build React + Vite
+2. **Proxifier les appels API** : Rediriger `/api/*` vers le backend
+3. **Éviter les problèmes CORS** : Tout passe par le même domaine (port 5173)
+
+### Flow de communication
+
+```
+Utilisateur → nginx (port 5173)
+              ↓
+              ├─ / → Fichiers statiques React
+              └─ /api/* → Proxy vers backend:8000
+```
+
+### Variables d'environnement
+
+Le backend est configurable via `BACKEND_URL`. **Attention : 2 endroits à modifier si besoin !**
+
+#### 1. Dockerfile (valeur par défaut figée dans l'image)
+
+```dockerfile
+# frontend/Dockerfile.prod ligne 23
+ENV BACKEND_URL=http://backend:8000
+```
+
+Cette valeur est **buildée dans l'image Docker** par GitHub Actions.
+
+#### 2. Kubernetes (surcharge au déploiement)
+
+```yaml
+# k8s/frontend/deployment.yaml
+env:
+  - name: BACKEND_URL
+    value: http://backend:8000
+```
+
+La valeur Kubernetes **surcharge** celle du Dockerfile au démarrage du pod.
+
+Au démarrage, `docker-entrypoint.sh` remplace `${BACKEND_URL}` dans la config nginx avec la valeur finale (K8s si définie, sinon Dockerfile).
+
+---
+
 ## Pipeline CI
 
 Deux pipelines distincts sont utilisés pour le front-end et le back-end.
@@ -314,7 +365,9 @@ Affiche les pods, services, et URLs d'accès !
 | `make endpoints` | Affiche les endpoints (distribution du trafic) |
 | `make scale-up` | Scale à 5 replicas (backend + frontend) |
 | `make scale-down` | Scale à 2 replicas |
-| `make clean` | Supprime tous les déploiements |
+| `make clean` | Supprime les ressources K8s (avec confirmation) |
+| `make clean-force` | Supprime sans confirmation |
+| `make clean-all` | Supprime tout + Minikube |
 | `make redeploy` | Nettoie et redéploie |
 | `make help` | Affiche toutes les commandes disponibles |
 
@@ -397,7 +450,9 @@ Affiche les pods, services, et URLs d'accès.
 | `.\scripts\logs.ps1` | Logs backend (par défaut) |
 | `.\scripts\logs.ps1 frontend` | Logs frontend |
 | `.\scripts\logs.ps1 all` | Logs de tous les services |
-| `.\scripts\clean.ps1` | Supprime tous les déploiements |
+| `.\scripts\clean.ps1` | Supprime les ressources K8s (avec confirmation) |
+| `.\scripts\clean.ps1 -Force` | Supprime sans confirmation |
+| `.\scripts\clean.ps1 -All` | Supprime tout + Minikube |
 
 #### Scaling manuel (Windows)
 

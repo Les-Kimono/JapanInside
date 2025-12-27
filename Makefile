@@ -61,6 +61,12 @@ logs-all:
 clean:
 	@bash scripts/bash/clean.sh
 
+clean-force:
+	@bash scripts/bash/clean.sh --force
+
+clean-all:
+	@bash scripts/bash/clean.sh --all
+
 # Redeploy
 redeploy: clean deploy
 
@@ -91,7 +97,9 @@ help:
 	@echo "  make deploy        - Deploie l'application avec Load Balancer (3 replicas)"
 	@echo "  make tunnel        - Lance le tunnel Minikube (requis pour LoadBalancer)"
 	@echo "  make status        - Affiche l'etat et les URLs"
-	@echo "  make clean         - Supprime tous les deploiements"
+	@echo "  make clean         - Supprime les ressources K8s (avec confirmation)"
+	@echo "  make clean-force   - Supprime sans confirmation"
+	@echo "  make clean-all     - Supprime tout + Minikube"
 	@echo "  make redeploy      - Nettoie et redemarre"
 	@echo ""
 	@echo "Logs:"
