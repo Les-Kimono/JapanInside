@@ -14,7 +14,7 @@ if (-not (Get-Command kubectl -ErrorAction SilentlyContinue)) {
 $minikubeStatus = minikube status --format='{{.Host}}' 2>$null
 if ($minikubeStatus -ne "Running") {
     Write-Host "Minikube non demarre. Demarrage..." -ForegroundColor Yellow
-    minikube start
+    minikube start --driver=docker
     if ($LASTEXITCODE -ne 0) {
         Write-Host "X Echec du demarrage de Minikube" -ForegroundColor Red
         exit 1

@@ -15,6 +15,8 @@ if ($confirm -ne 'o' -and $confirm -ne 'O') {
 }
 
 Write-Host "`nNettoyage en cours..." -ForegroundColor Cyan
+minikube stop
+minikube delete
 kubectl delete -f k8s/frontend/ --ignore-not-found
 kubectl delete -f k8s/backend/ --ignore-not-found
 kubectl delete -f k8s/db/ --ignore-not-found
