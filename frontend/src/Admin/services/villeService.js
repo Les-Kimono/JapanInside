@@ -15,8 +15,8 @@ export const updateVille = (id, ville) => {
     headers: { "Content-Type": "application/json","Authorization": `Bearer ${tokenStorageService.getToken()}` },
     body: JSON.stringify(ville),
   }).then(res => {
-  //  if (!res.ok) throw new Error("Erreur lors de la mise à jour");
-    return res?.json();
+    if (!res.ok) return "";
+    return res.json();
   });
 };
  
