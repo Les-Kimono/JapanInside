@@ -1,8 +1,10 @@
 name: CI Frontend
+
 on: [push, pull_request]
 
 jobs:
-  frontend:
+  test:
+    name: Test Frontend
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -26,3 +28,30 @@ jobs:
       - run: npm run build
 
       - run: npm test -- --ci --coverage --runInBand
+
+  build:
+    name: Build & Push to Docker Hub
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/test/deploy')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./frontend
+          file: ./frontend/Dockerfile.prod
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/japaninside-frontend:latest

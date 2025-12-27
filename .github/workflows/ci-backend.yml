@@ -1,8 +1,10 @@
 name: CI Backend
+
 on: [push, pull_request]
 
 jobs:
-  backend:
+  test:
+    name: Test Backend
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -18,3 +20,30 @@ jobs:
       - run: mypy . || true
       - run: safety check
       - run: PYTHONPATH=. pytest --cov=backend tests
+
+  build:
+    name: Build & Push to Docker Hub
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && (github.ref == 'refs/heads/main' || github.ref == 'refs/heads/master' || github.ref == 'refs/heads/test/deploy')
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+        
+      - name: Login to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_ACCESS_TOKEN }}
+          
+      - name: Build and push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend
+          file: ./backend/Dockerfile.prod
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/japaninside-backend:latest
