@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker
 import crud
 import models
 import schemas
-from database import Base
+from utils.database import Base
 
 
 SQLALCHEMY_DATABASE_URL = "sqlite:///:memory:"

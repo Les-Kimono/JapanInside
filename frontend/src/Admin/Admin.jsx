@@ -10,7 +10,6 @@ import { useVilles } from "./hooks/useVilles";
 import { fetchCoordinatesFromNominatim } from "./services/geocodingService";
 import * as villeService from "./services/villeService";
 import tokenStorageService from "./services/tokenStorageService";
-import { useNavigate } from "react-router-dom";
 export default function Admin() {
   const { villes, fetchVilles, deleteVille, moveVille } = useVilles();
 
@@ -21,8 +20,6 @@ export default function Admin() {
   const [loginModalOpen, setLoginModalOpen] = useState(true);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-const navigate = useNavigate();
 
 
   const checkToken = async (token) => {

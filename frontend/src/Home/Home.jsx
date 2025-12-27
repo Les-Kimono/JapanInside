@@ -10,7 +10,7 @@ const Home = () => {
   const [villes, setVilles] = useState([]);
   const [showSpecialitesModal, setShowSpecialitesModal] = useState(false);
   const [specialitesJP, setSpecialitesJP] = useState([]);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [isAuthenticated] = useState(false);
 
 
 
