@@ -17,6 +17,8 @@ jobs:
       - run: npm ci
 
       - run: npm run lint --if-present
+      - run: npm install -g prettier
+      
       - run: npm run format:check || true
 
       - run: npm audit --audit-level=high
