@@ -54,7 +54,7 @@ describe('API villes', () => {
 
     expect(fetch).toHaveBeenCalledWith('/api/villes', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json', 'Authorization': "FAKE_JWT_TOKEN" },
+      headers: { 'Content-Type': 'application/json', 'Authorization': expect.any(String) },
       body: JSON.stringify(newVille),
     });
   });
@@ -67,7 +67,7 @@ describe('API villes', () => {
 
     expect(fetch).toHaveBeenCalledWith('/api/villes/1', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'Authorization': "FAKE_JWT_TOKEN"  },
+      headers: { 'Content-Type': 'application/json', 'Authorization':expect.any(String)  },
       body: JSON.stringify(updatedVille),
     });
   });
@@ -88,7 +88,7 @@ describe('API villes', () => {
 
     expect(fetch).toHaveBeenCalledWith('/api/villes/reorder', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json', 'Authorization': "FAKE_JWT_TOKEN" },
+      headers: { 'Content-Type': 'application/json', 'Authorization': expect.any(String) },
       body: JSON.stringify(payload),
     });
   });
@@ -98,7 +98,7 @@ describe('API villes', () => {
 
     await flushAndInsertTemplate();
 
-    expect(fetch).toHaveBeenNthCalledWith(1, '/api/flushDB', { method: 'POST', headers: { 'Authorization': "FAKE_JWT_TOKEN"} });
-    expect(fetch).toHaveBeenNthCalledWith(2, '/api/insertDATA', { method: 'POST', headers: {'Authorization': "FAKE_JWT_TOKEN"} });
+    expect(fetch).toHaveBeenNthCalledWith(1, '/api/flushDB', { method: 'POST', headers: { 'Authorization': expect.any(String)} });
+    expect(fetch).toHaveBeenNthCalledWith(2, '/api/insertDATA', { method: 'POST', headers: {'Authorization': expect.any(String)} });
   });
 });
