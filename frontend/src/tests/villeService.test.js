@@ -26,19 +26,7 @@ global.fetch = jest.fn();
 beforeEach(async () => {
   localStorage.clear();
 
-  const loginResponse = await fetch('/api/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ username: 'admin', password: 'Tajini' }) 
-  });
-
-  const data = await loginResponse.json();
-
-  if (!data.success || !data.token) {
-    throw new Error('Impossible de récupérer un token pour les tests');
-  }
-
-  localStorage.setItem('access_token', data.token);
+  localStorage.setItem('access_token',"FAKE_JWT_TOKEN");
   console.log(localStorage.getItem("access_token"))
   fetch.mockClear();
 });
@@ -66,7 +54,7 @@ describe('API villes', () => {
 
     expect(fetch).toHaveBeenCalledWith('/api/villes', {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': "FAKE_JWT_TOKEN" },
       body: JSON.stringify(newVille),
     });
   });
@@ -79,7 +67,7 @@ describe('API villes', () => {
 
     expect(fetch).toHaveBeenCalledWith('/api/villes/1', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': "FAKE_JWT_TOKEN"  },
       body: JSON.stringify(updatedVille),
     });
   });
@@ -100,7 +88,7 @@ describe('API villes', () => {
 
     expect(fetch).toHaveBeenCalledWith('/api/villes/reorder', {
       method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
+      headers: { 'Content-Type': 'application/json', 'Authorization': "FAKE_JWT_TOKEN" },
       body: JSON.stringify(payload),
     });
   });
@@ -110,7 +98,7 @@ describe('API villes', () => {
 
     await flushAndInsertTemplate();
 
-    expect(fetch).toHaveBeenNthCalledWith(1, '/api/flushDB', { method: 'POST' });
-    expect(fetch).toHaveBeenNthCalledWith(2, '/api/insertDATA', { method: 'POST' });
+    expect(fetch).toHaveBeenNthCalledWith(1, '/api/flushDB', { method: 'POST', headers: { 'Authorization': "FAKE_JWT_TOKEN"} });
+    expect(fetch).toHaveBeenNthCalledWith(2, '/api/insertDATA', { method: 'POST', headers: {'Authorization': "FAKE_JWT_TOKEN"} });
   });
 });
