@@ -1,6 +1,6 @@
 """Inspect and display tables and their data in the database."""
 
-from database import SessionLocal, engine
+from utils.database import SessionLocal, engine
 from sqlalchemy import inspect, text
 
 

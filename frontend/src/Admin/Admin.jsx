@@ -63,6 +63,7 @@ useEffect(() => {
             setLoginModalOpen(false);
             toast.success("Connexion réussie !");
         } catch (err) {
+          console.error(err)
             toast.error("Mot de passe incorrect");
         }
     };
@@ -93,11 +94,13 @@ useEffect(() => {
         ...coords,
         attractions,
       };
-
-      modalMode === "add"
-        ? await villeService.createVille(payload)
-        : await villeService.updateVille(selectedVille.id, payload);
-
+      
+     if (modalMode === "add") {
+  payload.position = villes.length+1;
+  await villeService.createVille(payload);
+} else {
+  await villeService.updateVille(selectedVille.id, payload);
+}
       setModalMode(null);
       fetchVilles();
      
@@ -147,7 +150,7 @@ const disconnect = () => {
 }
   return (
     <div className="admin-container">
-      <ToastContainer />
+
       {isAuthenticated ? ( <>
       <AdminHeader
         onAdd={() => openModal("add")}
@@ -173,7 +176,7 @@ const disconnect = () => {
         />
       )}
 
-            <ToastContainer />
+    
            
         </>) : <div>
           
@@ -209,7 +212,7 @@ const disconnect = () => {
           </div>}
   
        
-      
+              <ToastContainer />
 
     </div>
   );
