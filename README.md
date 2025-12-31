@@ -115,6 +115,37 @@ JapanInside est une application full-stack pour organiser un voyage au Japon.
 Le projet inclut des **tests unitaires** pour le front et le back, des **Makefiles**, des **pre-commit hooks**, des **scripts de déploiement PowerShell**, et un code prêt pour la production avec **load balancing**.
 
 ---
+## Front-Office (FO)
+
+### Page d'accueil
+![alt text](image.png)
+
+### Composant détail d'étape
+![alt text](image-1.png)
+
+### Composant détail ville/attraction/recettes
+![alt text](image-2.png)
+
+## Back-Office (BO)
+
+Pour se connecter au back-office, les identifiants sont :
+- username: admin
+- password : Tajini
+
+### Page login
+![alt text](image-3.png)
+
+### Panel admin
+![alt text](image-4.png)
+
+### Ajout d'une ville
+![alt text](image-5.png)
+
+### Modification d'une ville
+![alt text](image-6.png)
+
+L'application vient avec un système de Toast pour le feedback utilisateur.
+---
 
 ## Setup
 
