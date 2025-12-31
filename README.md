@@ -7,6 +7,8 @@
 - [Idée](#idée)
 - [Stack technique](#stack-technique)
 - [Structure du projet](#structure-du-projet)
+- [Front-Office](#front-office)
+- [Back-Office](#back-office)
 - [Setup](#setup)
 - [Pipeline CI](#pipeline-ci)
 - [Makefiles](#makefiles)
@@ -32,9 +34,9 @@
 
 - [@justine](https://github.com/WitheredFlower10)  
 - [@lucas](https://github.com/luucas7)  
-- [@adrien](https://github.com/baffionia)  
-- [@jordan](https://github.com/ZedRoff)  
-- [@auguste](https://github.com/ZedRoff)  
+- [@adrien](https://github.com/AdrienB23)  
+- [@jordan](https://github.com/BelcollinJordan)  
+- [@auguste](https://github.com/aaAuguste)  
 - [@aman](https://github.com/ZedRoff)  
 
 ---
@@ -118,13 +120,13 @@ Le projet inclut des **tests unitaires** pour le front et le back, des **Makefil
 ## Front-Office (FO)
 
 ### Page d'accueil
-![alt text](image.png)
+![alt text](images/image.png)
 
 ### Composant détail d'étape
-![alt text](image-1.png)
+![alt text](images/image-1.png)
 
 ### Composant détail ville/attraction/recettes
-![alt text](image-2.png)
+![alt text](images/image-2.png)
 
 ## Back-Office (BO)
 
@@ -133,18 +135,19 @@ Pour se connecter au back-office, les identifiants sont :
 - password : Tajini
 
 ### Page login
-![alt text](image-3.png)
+![alt text](images/image-3.png)
 
 ### Panel admin
-![alt text](image-4.png)
+![alt text](images/image-4.png)
 
 ### Ajout d'une ville
-![alt text](image-5.png)
+![alt text](images/image-5.png)
 
 ### Modification d'une ville
-![alt text](image-6.png)
+![alt text](images/image-6.png)
 
 L'application vient avec un système de Toast pour le feedback utilisateur.
+
 ---
 
 ## Setup
