@@ -10,10 +10,7 @@ const Home = () => {
   const [villes, setVilles] = useState([]);
   const [showSpecialitesModal, setShowSpecialitesModal] = useState(false);
   const [specialitesJP, setSpecialitesJP] = useState([]);
-  const [isAuthenticated] = useState(false);
-
-
-
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
     const onVilleClick = useCallback((nom) => {
     if (!nom) return setVille(null);
@@ -23,7 +20,22 @@ const Home = () => {
       .then((data) => setVille({ ...data }))
       .catch((err) => setVille({ nom, error: err.toString() }));
   }, []);
-
+  const checkToken = async (token) => {
+      if (!token) {
+    setIsAuthenticated(false);
+    return;
+  }
+        const res = await fetch("/api/verify-token", {
+            method: "POST",
+            headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+            }
+        });
+        if (!res.ok) setIsAuthenticated(false);
+        if(res.ok) setIsAuthenticated(true);
+       
+    };
 useEffect(() => {
   const fetchVilles = async () => {
     try {
@@ -34,7 +46,7 @@ useEffect(() => {
       console.error("Erreur récupération villes :", err);
     }
   };
-
+  checkToken(localStorage.getItem("access_token"))
   fetchVilles();
 }, []);
 

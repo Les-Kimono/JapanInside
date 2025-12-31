@@ -5,7 +5,7 @@ import json
 import models
 from .database import SessionLocal
 from sqlalchemy.orm import Session
-
+from sqlalchemy import text
 JSON_FILE = "data/villes.json"
 
 
@@ -18,6 +18,13 @@ def execute() -> None:
     db: Session = SessionLocal()
 
     try:
+        db.execute(text("DELETE FROM ville_recette"))
+        db.query(models.Attraction).delete()
+        db.query(models.Recette).delete()
+        db.query(models.Ville).delete()
+        db.commit()
+        print("🗑️ Toutes les anciennes données ont été supprimées.")
+
         with open(JSON_FILE, "r", encoding="utf-8") as f:
             villes_data = json.load(f)
 

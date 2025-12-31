@@ -1,11 +1,50 @@
 
 SERVICES := frontend backend db
 
+
+
+DB_CONTAINER=postgres_db
+DB_USER=postgres
+DB_NAME=japaninside
+FRONT_URL="http://localhost:5173"
+BACK_URL="http://localhost:8000/api"
+health:
+	@echo "▶ Test connexion backend"
+	@curl -sf $(BACK_URL)/health || (echo "❌ Backend KO" && exit 1)
+
+	@echo "▶ Test connexion BDD (PostgreSQL)"
+	@docker exec $(DB_CONTAINER) \
+		psql -U $(DB_USER) -d $(DB_NAME) -c "SELECT 1;" \
+		>/dev/null || (echo "❌ Connexion BDD KO" && exit 1)
+
+	@echo "▶ Test écriture BDD"
+	@docker exec $(DB_CONTAINER) \
+		psql -U $(DB_USER) -d $(DB_NAME) \
+		-c "CREATE TABLE IF NOT EXISTS healthcheck (test text);" \
+		>/dev/null
+
+	@docker exec $(DB_CONTAINER) \
+		psql -U $(DB_USER) -d $(DB_NAME) \
+		-c "INSERT INTO healthcheck VALUES ('ok');" \
+		>/dev/null || (echo "❌ Écriture BDD KO" && exit 1)
+
+	@echo "▶ Test réponse front-end"
+	@curl -sf $(FRONT_URL) >/dev/null || (echo "❌ Front-end KO" && exit 1)
+
+	@echo "✅ Tous les checks sont OK"
+
+insert-data:
+	docker exec -i japaninside_backend python3 -m utils.insert_data
+
+
 first-install:
 	docker-compose build
 
 start:
-	docker-compose up -d
+	docker-compose -p japaninside up -d
+	@echo "⏳ Attente des services..."
+	@sleep 5
+	$(MAKE) health
 
 stop:
 	docker-compose down
@@ -33,7 +72,6 @@ pre-commit:
 
 tests:
 	pytest backend/tests -v
-
 
 # Deploiement avec Load Balancer
 deploy:

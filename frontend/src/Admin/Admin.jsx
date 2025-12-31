@@ -10,6 +10,9 @@ import { useVilles } from "./hooks/useVilles";
 import { fetchCoordinatesFromNominatim } from "./services/geocodingService";
 import * as villeService from "./services/villeService";
 import tokenStorageService from "./services/tokenStorageService";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHome, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 export default function Admin() {
   const { villes, fetchVilles, deleteVille, moveVille } = useVilles();
 
@@ -181,7 +184,10 @@ const disconnect = () => {
         </>) : <div>
           
            {loginModalOpen && (
-                <div className="modal-overlay">
+                <div className="modal-overlay" style={{display: "flex", flexDirection: "column", gap: "25px"}}> 
+                 <Link className="add-btn" to="/">
+        <FontAwesomeIcon icon={faHome} /> Accueil
+      </Link>
                     <div className="modal">
                         <h2>Connexion Admin</h2>
                         <form onSubmit={handleLogin} className="modal-fields">

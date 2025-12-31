@@ -1,20 +1,32 @@
 # JapanInside
 
 ## Table des matières
+
 - [Badges](#badges)
 - [Équipe](#équipe)
 - [Descriptif](#descriptif)
 - [Idée](#idée)
 - [Stack technique](#stack-technique)
 - [Structure du projet](#structure-du-projet)
-- [Front-Office](#front-office)
-- [Back-Office](#back-office)
+- [Front-Office (FO)](#front-office-fo)
+- [Back-Office (BO)](#back-office-bo)
 - [Setup](#setup)
+  - [Installation](#installation)
+  - [Lancement du projet](#lancement-du-projet)
+  - [Développement local](#développement-local)
+- [Images Docker](#images-docker)
+- [Vérification de connectivité à la base de donnée](#vérification-de-connectivité-à-la-base-de-donnée)
+- [Architecture Production avec nginx](#architecture-production-avec-nginx)
+  - [Reverse Proxy nginx](#reverse-proxy-nginx)
+  - [Flow de communication](#flow-de-communication)
+  - [Variables d'environnement](#variables-denvironnement)
 - [Pipeline CI](#pipeline-ci)
 - [Makefiles](#makefiles)
 - [Pipeline CD](#pipeline-cd)
 - [Déploiement avec Minikube](#déploiement-avec-minikube)
-
+  - [Linux / Mac](#linux--mac)
+  - [Windows](#windows)
+  - [Configuration LoadBalancer](#configuration-loadbalancer)
 ---
 
 ## Badges
@@ -178,11 +190,8 @@ cd japan-inside
 ```bash
 make first-install
 make start
-make stop
-make start
+make insert-data
 ```
-
-> Les deux dernières étapes sont nécessaires pour que la base de données se crée correctement.
 
 ---
 
@@ -194,6 +203,7 @@ make restart
 ```
 
 ---
+
 ## Images Docker
 
 ```
@@ -203,6 +213,40 @@ https://hub.docker.com/r/luucas71/japaninside-backend
 
 ---
 
+## Vérification de connectivité à la base de donnée
+
+Dans le Makefile principal (celui présent à la racine du projet). Une commande `health` est préparée, afin de vérifier la connexion front/back/db : 
+```bash
+health:
+	@echo "▶ Test connexion backend"
+	@curl -sf $(BACK_URL)/health || (echo "❌ Backend KO" && exit 1)
+
+	@echo "▶ Test connexion BDD (PostgreSQL)"
+	@docker exec $(DB_CONTAINER) \
+		psql -U $(DB_USER) -d $(DB_NAME) -c "SELECT 1;" \
+		>/dev/null || (echo "❌ Connexion BDD KO" && exit 1)
+
+	@echo "▶ Test écriture BDD"
+	@docker exec $(DB_CONTAINER) \
+		psql -U $(DB_USER) -d $(DB_NAME) \
+		-c "CREATE TABLE IF NOT EXISTS healthcheck (test text);" \
+		>/dev/null
+
+	@docker exec $(DB_CONTAINER) \
+		psql -U $(DB_USER) -d $(DB_NAME) \
+		-c "INSERT INTO healthcheck VALUES ('ok');" \
+		>/dev/null || (echo "❌ Écriture BDD KO" && exit 1)
+
+	@echo "▶ Test réponse front-end"
+	@curl -sf $(FRONT_URL) >/dev/null || (echo "❌ Front-end KO" && exit 1)
+
+	@echo "✅ Tous les checks sont OK"
+```
+
+Ce script sh pointe vers l'endpoint `/api/health` vérifiant ainsi le requêtage avec le back. Ensuite il se connecte au container postgresql et vérifie la connexion, l'écriture et la lecture en base de donnée, comme énoncé par le cahier des charges. Il créer une table, insère et lit des données.
+Enfin, il vérifie la connexion avec le front avec un `curl`
+
+---
 ## Architecture Production avec nginx
 
 ### Reverse Proxy nginx
