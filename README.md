@@ -1,5 +1,9 @@
 # JapanInside
 
+## Note importante
+
+La vidéo de rendu du projet (démonstrative) est présente ici : [Lien](https://drive.google.com/file/d/1H9u5MqBSH6XcLJkhIpvTpE3LWVdClBT5/view?usp=drive_link)
+
 ## Table des matières
 
 - [Badges](#badges)
@@ -34,7 +38,7 @@
 [![CI Frontend](https://github.com/Les-Kimono/JapanInside/actions/workflows/ci-frontend.yml/badge.svg)](https://github.com/ORG/Les-Kimono/JapanInside/workflows/ci-frontend.yml)  
 [![CI Backend](https://github.com/Les-Kimono/JapanInside/actions/workflows/ci-backend.yml/badge.svg)](https://github.com/ORG/Les-Kimono/JapanInside/workflows/ci-backend.yml)
 
-![Status](https://img.shields.io/badge/status-en%20développement-orange?style=for-the-badge)  
+![Status](https://img.shields.io/badge/status-V1-blue?style=for-the-badge)
 ![Licence](https://img.shields.io/github/license/Les-Kimono/JapanInside?style=for-the-badge)  
 ![Dernier commit](https://img.shields.io/github/last-commit/Les-Kimono/JapanInside?style=for-the-badge)  
 ![Contributeurs](https://img.shields.io/github/contributors/Les-Kimono/JapanInside?style=for-the-badge)  
